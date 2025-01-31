@@ -1,0 +1,63 @@
+    def add_to_cart(self, request, pk=None):
+        """API to add items to the cart."""
+        item = get_object_or_404(Product, pk=pk)
+
+        # Get or create a cart item
+        cart_item, created = Cart.objects.get_or_create(
+            item=item, user=request.user, purchased=False
+        )
+
+        # Check for an active order
+        order = Order.objects.filter(user=request.user, ordered=False).first()
+
+        if order:
+            if order.orderitems.filter(item=item).exists():
+                cart_item.quantity += 1
+                cart_item.save()
+                return Response({"message": "Item quantity updated!"}, status=status.HTTP_200_OK)
+            else:
+                order.orderitems.add(cart_item)
+                return Response({"message": "Item added to cart!"}, status=status.HTTP_201_CREATED)
+        else:
+            order = Order.objects.create(user=request.user)
+            order.orderitems.add(cart_item)
+            return Response({"message": "Item added to cart!"}, status=status.HTTP_201_CREATED)
+
+
+    def remove_from_cart(self, request, pk=None):
+        """API to remove an item from the cart."""
+        item = get_object_or_404(Product, pk=pk)
+        cart_item = Cart.objects.filter(item=item, user=request.user, purchased=False).first()
+
+        if cart_item:
+            cart_item.delete()
+            return Response({"message": "Item removed from cart!"}, status=status.HTTP_200_OK)
+        return Response({"error": "Item not found in cart!"}, status=status.HTTP_404_NOT_FOUND)
+
+
+    def increase_cart(self, request, pk=None):
+        """API to increase cart item quantity."""
+        item = get_object_or_404(Product, pk=pk)
+        cart_item = Cart.objects.filter(item=item, user=request.user, purchased=False).first()
+
+        if cart_item:
+            cart_item.quantity += 1
+            cart_item.save()
+            return Response({"message": "Item quantity increased!"}, status=status.HTTP_200_OK)
+        return Response({"error": "Item not found in cart!"}, status=status.HTTP_404_NOT_FOUND)
+
+
+    def decrease_cart(self, request, pk=None):
+        """API to decrease cart item quantity."""
+        item = get_object_or_404(Product, pk=pk)
+        cart_item = Cart.objects.filter(item=item, user=request.user, purchased=False).first()
+
+        if cart_item:
+            if cart_item.quantity > 1:
+                cart_item.quantity -= 1
+                cart_item.save()
+                return Response({"message": "Item quantity decreased!"}, status=status.HTTP_200_OK)
+            else:
+                cart_item.delete()
+                return Response({"message": "Item removed from cart!"}, status=status.HTTP_200_OK)
+        return Response({"error": "Item not found in cart!"}, status=status.HTTP_404_NOT_FOUND)
