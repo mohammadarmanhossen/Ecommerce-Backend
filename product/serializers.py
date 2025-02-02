@@ -10,15 +10,6 @@ class ProductSerializer(serializers.ModelSerializer):
 
 
 
-class ReviewSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Review
-        fields = '__all__'
-
-    def validate_rating(self, value):
-        if not isinstance(value, int):
-            raise serializers.ValidationError("Rating must be an integer.")
-        return value
 
 
         
