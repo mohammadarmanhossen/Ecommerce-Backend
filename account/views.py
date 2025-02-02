@@ -22,6 +22,11 @@ from rest_framework.authtoken.models import Token
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework .decorators import api_view
+from rest_framework import status
+from rest_framework.generics import ListAPIView
+from rest_framework import viewsets
+from .models import Contact
+from .serializers import ContactSerializers
 
 
 
@@ -99,3 +104,6 @@ class UserLogoutApiView(APIView):
         logout(request)
         return redirect('login')
 
+class ContactViewSet(viewsets.ModelViewSet):
+    queryset = Contact.objects.all()
+    serializer_class = ContactSerializers

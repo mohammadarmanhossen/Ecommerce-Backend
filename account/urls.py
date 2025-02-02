@@ -2,8 +2,10 @@ from rest_framework.routers import DefaultRouter
 from django.urls import path,include
 from . import views
 from .views import UserListView
+from .views import ContactViewSet
 
 router=DefaultRouter()
+router.register('contact', ContactViewSet)
 urlpatterns = [
     path('',include(router.urls)),
     path('register/',views.UserRegistrationApiView.as_view(),name='register'),
