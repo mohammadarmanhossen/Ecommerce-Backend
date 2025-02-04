@@ -1,11 +1,18 @@
 from rest_framework import viewsets
 from .models import Product,Review,Brand
-from .serializers import ProductSerializer,ReviewSerializer,BrandSerializer
+from .serializers import ProductSerializer,KeyboardSerializer,HeadphoneSerializer,ReviewSerializer,BrandSerializer
 
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
 
+class keyboardViewSet(viewsets.ModelViewSet):
+    queryset = Product.objects.all()
+    serializer_class = KeyboardSerializer
+
+class HeadphoneViewSet(viewsets.ModelViewSet):
+    queryset = Product.objects.all()
+    serializer_class = HeadphoneSerializer
 
     
 class ReviewViewSet(viewsets.ModelViewSet):
