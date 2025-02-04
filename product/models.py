@@ -9,7 +9,7 @@ class Brand(models.Model):
         return self.name
 
 class Product(models.Model):
-    brand=models.ForeignKey(Brand,on_delete=models.CASCADE)
+    brand = models.ForeignKey(Brand, on_delete=models.CASCADE, default=1)
     name = models.CharField(max_length=255)
     description = models.TextField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
@@ -41,21 +41,3 @@ class Review(models.Model):
         return f"{self.user.username} rated {self.product.name} {dict(STAR_CHOICES)[self.star]}"
 
 
-
-class Keyboard (models.Model):
-    brand=models.ForeignKey(Brand,on_delete=models.CASCADE)
-    name = models.CharField(max_length=255)
-    description = models.TextField()
-    price = models.DecimalField(max_digits=10, decimal_places=2)
-    stock = models.PositiveIntegerField()
-    image = models.ImageField(upload_to='products/')
-
-
-
-class Headphone (models.Model):
-    brand=models.ForeignKey(Brand,on_delete=models.CASCADE)
-    name = models.CharField(max_length=255)
-    description = models.TextField()
-    price = models.DecimalField(max_digits=10, decimal_places=2)
-    stock = models.PositiveIntegerField()
-    image = models.ImageField(upload_to='products/')

@@ -6,8 +6,6 @@ from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
 router.register('product',views.ProductViewSet)
-router.register('keyboard', views.keyboardViewSet)
-router.register('headphone', views.HeadphoneViewSet)
 router.register('review', views.ReviewViewSet)
 router.register('Brand', views.BrandViewSet)
 

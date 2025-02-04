@@ -7,8 +7,6 @@ class BrandAdmin(admin.ModelAdmin):
 
 admin.site.register(models.Brand, BrandAdmin)
 admin.site.register(models.Product)
-admin.site.register(models.Keyboard)
-admin.site.register(models.Headphone)
 admin.site.register(models.Review)
 
 
