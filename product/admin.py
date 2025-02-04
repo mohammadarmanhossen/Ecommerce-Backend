@@ -1,14 +1,12 @@
 from django.contrib import admin
-from .import models
+from .models import Brand, Product, Review
 
 class BrandAdmin(admin.ModelAdmin):
-    prepopulated_fields = {"slug" : ("name",)}
-    list_display = ['name', 'slug']
+    prepopulated_fields = {"slug": ("name",)}  
+    list_display = ("name", "slug")  
 
-admin.site.register(models.Brand, BrandAdmin)
-admin.site.register(models.Product)
-admin.site.register(models.Review)
-
-
+admin.site.register(Brand, BrandAdmin)
+admin.site.register(Product)
+admin.site.register(Review)
 
 

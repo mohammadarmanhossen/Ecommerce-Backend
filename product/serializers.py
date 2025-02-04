@@ -4,9 +4,11 @@ from rest_framework import serializers
 from .models import Product,Review,Brand
 
 class ProductSerializer(serializers.ModelSerializer):
+    brand = serializers.CharField(source='brand.name')
+
     class Meta:
         model = Product
-        fields = '__all__' 
+        fields = ['id', 'name', 'description', 'price', 'stock', 'image', 'brand']
 
 
 
