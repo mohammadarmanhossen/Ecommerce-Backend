@@ -103,7 +103,15 @@ class UserLogoutApiView(APIView):
     def get(self, request):
         logout(request)
         return redirect('login')
+    
+
 
 class ContactViewSet(viewsets.ModelViewSet):
     queryset = Contact.objects.all()
     serializer_class = ContactSerializers
+
+
+
+
+
+    
