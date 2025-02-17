@@ -1,21 +1,39 @@
 from rest_framework import serializers
 from .models import Product
 from rest_framework import serializers
-from .models import Product,Review,Brand,Cart
+from .models import Product,Keybord,Headphone,Review,Brand,Cart
 
 class ProductSerializer(serializers.ModelSerializer):
-    brand = serializers.CharField(source='brand.name')
+    brand = serializers.CharField(source='brand.name', read_only=True) 
 
     class Meta:
         model = Product
         fields = ['id', 'name', 'description', 'price', 'stock', 'image', 'brand']
 
 
+
+class KeybordSerializer(serializers.ModelSerializer):
+    brand = serializers.CharField(source='brand.name')
+
+    class Meta:
+        model = Keybord
+        fields = ['id', 'name', 'description', 'price', 'stock', 'image', 'brand']
+
+
+
+class HeadphoneSerializer(serializers.ModelSerializer):
+    brand = serializers.CharField(source='brand.name')
+
+    class Meta:
+        model = Headphone
+        fields = ['id', 'name', 'description', 'price', 'stock', 'image', 'brand']
+
+
+
 class CartSerializer(serializers.ModelSerializer):
     class Meta:
         model = Cart
         fields ="__all__"
-
 
 
 class ReviewSerializer(serializers.ModelSerializer):

@@ -1,83 +1,89 @@
-
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from django.contrib.auth.models import User
 from sslcommerz_lib import SSLCOMMERZ
 import uuid
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework.permissions import AllowAny
+from rest_framework import viewsets
+from rest_framework.decorators import action
+from django.shortcuts import redirect
 
 
 
-class PaymentAPI(APIView):
-    permission_classes = [AllowAny]
+class PaymentViewSet(viewsets.ViewSet):
 
-    def post(self, request):
+    @action(detail=False, methods=['post'])
+    def create_payment(self, request):
+
+        user_id = request.data.get('user')
+        total_amount = request.data.get('total_amount')
+
+        user = None
+        if user_id:
+            try:
+                user = User.objects.get(id=user_id)
+            except User.DoesNotExist:
+                return Response({"error": "Invalid user ID"}, status=400)
+
+        tran_id = str(uuid.uuid4())[:10]
+
+        settings = {
+            'store_id': 'arman679a8128a9e35',
+            'store_pass': 'arman679a8128a9e35@ssl',
+            'issandbox': True,
+        }
+
+        sslcz = SSLCOMMERZ(settings)
+
+        post_body = {
+            'total_amount': total_amount,
+            'currency': "BDT",
+            'tran_id': tran_id,
+            'success_url': "http://127.0.0.1:8000/payment/success/",
+            'fail_url': "http://127.0.0.1:8000/payment/failed/",
+            'cancel_url': "http://127.0.0.1:8000/payment/cancel/",
+            'emi_option': 0,
+            'cus_name': "arman",
+            'cus_email': "arman@gmail.com",
+            'cus_phone': "1908349238",
+            'cus_add1': "Mirpur, Dhaka",
+            'cus_city': "Dhaka",
+            'cus_country': "Bangladesh",
+            'shipping_method': "NO",
+            'multi_card_name': "10304040",
+            'num_of_item': 1,
+            'product_name': "Test Product",
+            'product_category': "Test Category",
+            'product_profile': "general",
+        }
+
         try:
-            tran_id = str(uuid.uuid4())[:10] 
-
-            settings = {
-                'store_id': 'arman679a8128a9e35',
-                'store_pass': 'arman679a8128a9e35@ssl',
-                'issandbox': True, 
-            }
-
-            sslcz = SSLCOMMERZ(settings)
-
-            post_body = {
-                'total_amount': 5000,
-                'currency': "BDT",
-                'tran_id': tran_id,
-                'success_url': "http://127.0.0.1:8000/payment/success/",
-                'fail_url': "http://127.0.0.1:8000/payment/failed/",
-                'cancel_url': "http://127.0.0.1:8000/payment/cancel/",
-                'emi_option': 0,
-                'cus_name':User.username,
-                'cus_email':User.email,
-                'cus_phone': "01765034196",
-                'cus_add1': "Dhaka",
-                'cus_city': "Dhaka",
-                'cus_country': "Bangladesh", 
-                'shipping_method': "NO",
-                'multi_card_name': "10304040",
-                'num_of_item': 1,
-                'product_name': "Test",
-                'product_category': "Test Category",
-                'product_profile': "general",
-            }
-
             response = sslcz.createSession(post_body)
-
             if 'GatewayPageURL' not in response:
                 return Response({"error": "Payment session creation failed", "details": response}, status=400)
-
             return Response({'payment_url': response['GatewayPageURL']})
-
         except Exception as e:
-            return Response({"error": str(e)}, status=500)
+            return Response({"error": "Payment processing failed", "details": str(e)}, status=500)
 
 
 class PaymentSuccessAPI(APIView):
+    permission_classes = [AllowAny]
+
     def post(self, request):
-        return Response({"message": "Payment successful", "data": request.data})
+        return redirect("http://127.0.0.1:5501/cart.html")
+
 
 class PaymentFailedAPI(APIView):
+    permission_classes = [AllowAny]
+
     def post(self, request):
-        return Response({"message": "Payment failed", "data": request.data})
+        return redirect("http://127.0.0.1:5501/cart.html")
 
 
 class PaymentCancelAPI(APIView):
+    permission_classes = [AllowAny]
+
     def post(self, request):
-        return Response({"message": "Payment cancelled", "data": request.data})
-
-
-
-
-        
-
- 
-
+        return redirect("http://127.0.0.1:5501/cart.html")
 
 

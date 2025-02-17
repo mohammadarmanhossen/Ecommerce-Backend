@@ -79,7 +79,6 @@ def activate(request,uid64,token):
 
 class UserLoginApiView(APIView):
     def post(self, request):
-        # Rename the variable to avoid the naming conflict
         user_login_serializer = serializers.UserLoginSerializer(data=request.data)
         
         if user_login_serializer.is_valid():
