@@ -48,11 +48,8 @@ class Headphone(models.Model):
 
 
 
-
-
-
-
 class Cart(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=1)  
     is_paid = models.BooleanField(default=False)
@@ -64,7 +61,7 @@ class Cart(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"{self.product.name} - {self.quantity} pcs"
+        return f"{self.product.name} - {self.quantity}"
 
 
 

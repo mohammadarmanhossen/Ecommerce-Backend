@@ -3,10 +3,30 @@ from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from django.contrib.auth.models import User
 from sslcommerz_lib import SSLCOMMERZ
+
 import uuid
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from django.shortcuts import redirect
+
+
+from rest_framework import viewsets
+from .serializers import OrderSerializer
+from .models import Order
+
+
+   
+
+class OrderViewSet(viewsets.ModelViewSet):
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer
+
+    def perform_create(self, serializer):
+        order = serializer.save()
+        order.total_amount = order.product.price * order.quantity
+        order.save()
+
+
 
 
 
@@ -85,5 +105,8 @@ class PaymentCancelAPI(APIView):
 
     def post(self, request):
         return redirect("http://127.0.0.1:5501/cart.html")
+
+
+
 
 
