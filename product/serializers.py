@@ -1,7 +1,8 @@
 from rest_framework import serializers
 from .models import Product
 from rest_framework import serializers
-from .models import Product,Keybord,Headphone,Review,Brand,Cart
+from .models import Product,Keybord,Headphone,Review,Brand
+from rest_framework import serializers
 
 
 
@@ -32,10 +33,6 @@ class HeadphoneSerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'description', 'price', 'stock', 'image', 'brand']
 
 
-class CartSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Cart
-        fields = ['product', 'quantity', 'total_amount', 'is_paid']
 
 
 class ReviewSerializer(serializers.ModelSerializer):

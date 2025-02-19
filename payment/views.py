@@ -15,19 +15,9 @@ from .serializers import OrderSerializer
 from .models import Order
 
 
-   
-
 class OrderViewSet(viewsets.ModelViewSet):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
-
-    def perform_create(self, serializer):
-        order = serializer.save()
-        order.total_amount = order.product.price * order.quantity
-        order.save()
-
-
-
 
 
 class PaymentViewSet(viewsets.ViewSet):
@@ -36,6 +26,7 @@ class PaymentViewSet(viewsets.ViewSet):
     def create_payment(self, request):
 
         user_id = request.data.get('user')
+        order_id = request.data.get("order_id")
         total_amount = request.data.get('total_amount')
 
         user = None
@@ -59,7 +50,7 @@ class PaymentViewSet(viewsets.ViewSet):
             'total_amount': total_amount,
             'currency': "BDT",
             'tran_id': tran_id,
-            'success_url': "http://127.0.0.1:8000/payment/success/",
+            'success_url': f"http://127.0.0.1:8000/payment/success/{order_id}/",
             'fail_url': "http://127.0.0.1:8000/payment/failed/",
             'cancel_url': "http://127.0.0.1:8000/payment/cancel/",
             'emi_option': 0,
@@ -86,25 +77,34 @@ class PaymentViewSet(viewsets.ViewSet):
             return Response({"error": "Payment processing failed", "details": str(e)}, status=500)
 
 
+
 class PaymentSuccessAPI(APIView):
     permission_classes = [AllowAny]
 
-    def post(self, request):
-        return redirect("http://127.0.0.1:5501/cart.html")
+    def post(self, request, order_id):  
+
+        order = Order.objects.filter(id=order_id).first()
+
+        if order:
+            order.is_paid = True
+            order.save()
+            return redirect("http://127.0.0.1:5501/order_details.html")
+        
+        return Response({"error": "Order not found"}, status=404)
+
 
 
 class PaymentFailedAPI(APIView):
-    permission_classes = [AllowAny]
+    permission_classes = [AllowAny]  
 
     def post(self, request):
-        return redirect("http://127.0.0.1:5501/cart.html")
+        return redirect("http://127.0.0.1:5501/order_details.html")
 
 
 class PaymentCancelAPI(APIView):
-    permission_classes = [AllowAny]
-
+    permission_classes = [AllowAny] 
     def post(self, request):
-        return redirect("http://127.0.0.1:5501/cart.html")
+        return redirect("http://127.0.0.1:5501/order_details.html")
 
 
 

@@ -48,21 +48,6 @@ class Headphone(models.Model):
 
 
 
-class Cart(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    quantity = models.PositiveIntegerField(default=1)  
-    is_paid = models.BooleanField(default=False)
-    total_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-
-    def save(self, *args, **kwargs):
-        if self.product and self.quantity:
-            self.total_amount = self.product.price * self.quantity  
-        super().save(*args, **kwargs)
-
-    def __str__(self):
-        return f"{self.product.name} - {self.quantity}"
-
 
 
 

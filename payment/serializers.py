@@ -4,12 +4,13 @@ from product.serializers import *
 
 
 
+from rest_framework import serializers
+from .models import Order
+
 class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
-        fields = '__all__'
+        fields = ['id','total_amount', 'is_paid']  
 
-    def validate(self, data):
-        if data['out_date'] <= data['start_date']:
-            raise serializers.ValidationError({"out_date": "Out date must be after start date."})
-        return data
+
+
