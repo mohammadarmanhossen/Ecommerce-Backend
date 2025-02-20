@@ -1,8 +1,0 @@
-
-Password :Arman404@
-Username:arman_404
-
-Store ID: arman679a8128a9e35
-Store Password (API/Secret Key): arman679a8128a9e35@ssl
-
-
