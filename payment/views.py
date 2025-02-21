@@ -50,9 +50,9 @@ class PaymentViewSet(viewsets.ViewSet):
             'total_amount': total_amount,
             'currency': "BDT",
             'tran_id': tran_id,
-            'success_url': f"http://127.0.0.1:8000/payment/success/{order_id}/",
-            'fail_url': "http://127.0.0.1:8000/payment/failed/",
-            'cancel_url': "http://127.0.0.1:8000/payment/cancel/",
+            'success_url': f"https://ecommerce-backend-4yjb.onrender.com/payment/success/{order_id}/",
+            'fail_url': "https://ecommerce-backend-4yjb.onrender.com/payment/failed/",
+            'cancel_url': "https://ecommerce-backend-4yjb.onrender.com/payment/cancel/",
             'emi_option': 0,
             'cus_name': "arman",
             'cus_email': "arman@gmail.com",
@@ -88,7 +88,7 @@ class PaymentSuccessAPI(APIView):
         if order:
             order.is_paid = True
             order.save()
-            return redirect("http://127.0.0.1:5501/order_details.html")
+            return redirect("https://peaceful-pasca-10d022.netlify.app/order_details.html")
         
         return Response({"error": "Order not found"}, status=404)
 
@@ -98,13 +98,13 @@ class PaymentFailedAPI(APIView):
     permission_classes = [AllowAny]  
 
     def post(self, request):
-        return redirect("http://127.0.0.1:5501/order_details.html")
+        return redirect("https://peaceful-pasca-10d022.netlify.app/order_details.html")
 
 
 class PaymentCancelAPI(APIView):
     permission_classes = [AllowAny] 
     def post(self, request):
-        return redirect("http://127.0.0.1:5501/order_details.html")
+        return redirect("https://peaceful-pasca-10d022.netlify.app/order_details.html")
 
 
 
