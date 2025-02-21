@@ -7,5 +7,3 @@ admin.site.register(Keybord)
 admin.site.register(Headphone)
 admin.site.register(Review)
 
-
-

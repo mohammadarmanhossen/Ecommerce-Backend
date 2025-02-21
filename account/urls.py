@@ -14,3 +14,5 @@ urlpatterns = [
     path('active/<uid64>/<token>',views.activate,name='activate'),
     path('user/', UserListView.as_view(), name='user-list'),
 ]
+
+
