@@ -108,8 +108,8 @@ WSGI_APPLICATION = 'Ecommerce.wsgi.app'
 
 
 
-CORS_ALLOWED_ORIGINS = [
-    'https://ecommerce-backend-4yjb.onrender.com',
+CSRF_TRUSTED_ORIGINS = [
+    "https://ecommerce-backend-4yjb.onrender.com",
 ]
 
 # Database
