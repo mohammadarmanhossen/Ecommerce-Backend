@@ -6,31 +6,32 @@ from rest_framework import serializers
 
 
 
-
 class ProductSerializer(serializers.ModelSerializer):
-    brand = serializers.CharField(source='brand.name', read_only=True) 
+    brand_name = serializers.CharField(source='brand.name', read_only=True)  
+    brand = serializers.PrimaryKeyRelatedField(queryset=Brand.objects.all())  
 
     class Meta:
         model = Product
-        fields = ['id', 'name', 'description', 'price', 'stock', 'image', 'brand']
-
+        fields = ['id', 'name', 'description', 'price', 'stock', 'image_url', 'brand', 'brand_name']
 
 
 class KeybordSerializer(serializers.ModelSerializer):
-    brand = serializers.CharField(source='brand.name')
+    brand_name = serializers.CharField(source='brand.name', read_only=True)  
+    brand = serializers.PrimaryKeyRelatedField(queryset=Brand.objects.all())  
 
     class Meta:
         model = Keybord
-        fields = ['id', 'name', 'description', 'price', 'stock', 'image', 'brand']
+        fields = ['id', 'name', 'description', 'price', 'stock', 'image_url', 'brand','brand_name']
 
 
 
 class HeadphoneSerializer(serializers.ModelSerializer):
-    brand = serializers.CharField(source='brand.name')
+    brand_name = serializers.CharField(source='brand.name', read_only=True)  
+    brand = serializers.PrimaryKeyRelatedField(queryset=Brand.objects.all())  
 
     class Meta:
         model = Headphone
-        fields = ['id', 'name', 'description', 'price', 'stock', 'image', 'brand']
+        fields = ['id', 'name', 'description', 'price', 'stock', 'image_url', 'brand','brand_name']
 
 
 
