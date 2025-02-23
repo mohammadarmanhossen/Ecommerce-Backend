@@ -88,7 +88,7 @@ class PaymentSuccessAPI(APIView):
         if order:
             order.is_paid = True
             order.save()
-            return redirect("https://peaceful-pasca-10d022.netlify.app/order_details.html")
+            return redirect("https://cute-dieffenbachia-3205a2.netlify.app/order_details.html")
         
         return Response({"error": "Order not found"}, status=404)
 
@@ -98,13 +98,13 @@ class PaymentFailedAPI(APIView):
     permission_classes = [AllowAny]  
 
     def post(self, request):
-        return redirect("https://peaceful-pasca-10d022.netlify.app/order_details.html")
+        return redirect("https://cute-dieffenbachia-3205a2.netlify.app/order_details.html")
 
 
 class PaymentCancelAPI(APIView):
     permission_classes = [AllowAny] 
     def post(self, request):
-        return redirect("https://peaceful-pasca-10d022.netlify.app/order_details.html")
+        return redirect("https://cute-dieffenbachia-3205a2.netlify.app/order_details.html")
 
 
 
