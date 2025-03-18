@@ -1,1 +1,1 @@
-[Shopzen(https://ecommerce-forntend-site.netlify.app/)
+[Shopzen](https://ecommerce-forntend-site.netlify.app/)
